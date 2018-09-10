@@ -1,0 +1,34 @@
+<div fxflexfill fxLayout="row" class="projectGrid"  fxLayoutAlign="start center">
+
+  <div class="gridItem add-project" fxLayoutAlign="center center">
+      <button mat-stroked-button color='primary' (click)="addProjectEvent(-1);">Add project</button>
+  </div>
+
+  <div class="gridItem" *ngFor="let project of portfolio;let i = index">
+      <mat-card class="no-elevation">
+         <div class="aspect_ratio">
+          <img height="202px" class="thumbnail" (click)="showMoreDetails(project)" mat-card-image [src]="getThubmnailImage(project.url)" />  
+         </div>
+         <mat-card-title class="bold">{{project.title}}</mat-card-title>
+         <mat-card-content>
+            <div fxLayout="row" [style.margin]="'0px 10px'">{{project.role}}</div>
+            <div class="content-seperator"></div>
+            <div class="format" fxLayout="row" [style.margin]="'0px 10px 10px'">{{project.category}}</div>
+         </mat-card-content>
+          <div class="actions-border"></div>
+            <div fxLayout="row" [style.margin]="'8px 10px 0'">
+              <button mat-icon-button (click)="editProject.emit(i)">
+                <mat-icon class="icon-small">edit</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteProjectEvent(i)">
+                <mat-icon class="icon-small">delete</mat-icon>
+              </button>
+              <span fxFlex></span>
+              <button mat-button (click)="showMoreDetails(project)" style="width: auto;">
+                More Info
+              </button>
+            </div>
+        </mat-card>
+  </div>
+  
+</div>

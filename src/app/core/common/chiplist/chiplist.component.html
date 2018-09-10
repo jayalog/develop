@@ -1,0 +1,28 @@
+<form [formGroup]="form">
+<mat-form-field class="custom-chiplist">
+       <mat-chip-list #chipList (click)="closeDropdown()">
+        <mat-chip *ngFor="let item of addedChips" [selectable]="true" [removable]="true" (removed)="removeChip(item)">
+          {{item}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>  
+
+      <input *ngIf="autoCompleteList.length == 0" #Input formControlName="textInput" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="add($event)" [disabled]='disable' (click)="foucusAutoComplete()" >
+
+      <input *ngIf="autoCompleteList.length > 0" #Input formControlName="textInput" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event)" [disabled]='disable' (click)="foucusAutoComplete()" (ngModelChange)='filterDropdown($event)'>
+
+       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let item of filteredList" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-autocomplete>
+
+      <mat-hint *ngIf='addedChips?.length <= 9'>{{hint}}</mat-hint>
+      <span *ngIf="addedChips?.length > 9" class="custom-mat-error">Already added 10 items.</span>
+      <!-- <mat-icon matSuffix (click)='return'>mode_edit</mat-icon> -->      
+      
+    </mat-form-field>
+</form>
+

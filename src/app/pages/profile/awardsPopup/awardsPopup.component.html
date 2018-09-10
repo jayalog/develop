@@ -1,0 +1,52 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Award</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form" fxLayout="column" fxLayoutGap="20px">
+  
+    <div fxFlex fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Award Name</mat-placeholder>
+        <input type="text" required formControlName="name" matInput>
+        <mat-error>Award name is required.</mat-error>
+      </mat-form-field>
+    
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Award category</mat-placeholder>
+        <input type="text" formControlName="category" matInput>
+        <mat-hint>Ex. direction, editing etc.</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Award Type</mat-placeholder>
+        <input type="text" formControlName="type" matInput>
+        <mat-hint>Individual or for the film.</mat-hint>
+      </mat-form-field>
+    
+      <mat-form-field fxFlex='50'>
+        <input matInput [matDatepicker]="date" formControlName="date" placeholder="Date">
+        <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+        <mat-datepicker #date ></mat-datepicker>
+      </mat-form-field>
+      
+    </div>
+
+    <div fxFlex fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Client</mat-placeholder>
+        <input type="text" formControlName="client" matInput>
+      </mat-form-field>
+    
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Url of the film if any</mat-placeholder>
+        <input type="text" formControlName="url" matInput>
+      </mat-form-field>
+    </div>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>

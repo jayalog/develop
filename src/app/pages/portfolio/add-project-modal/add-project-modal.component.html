@@ -1,0 +1,226 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+    <h2 mat-dialog-title>{{projectVo?'Edit':'Add'}} Project</h2>
+    <i class="material-icons closeIcon" (click)="closeDialog()">close</i>
+</div>
+ <div>
+<form [formGroup]="addProjectForm">
+  <div class="content" fxLayout="column" fxLayoutGap="22px" >
+
+    <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex="50">
+            <mat-placeholder>Title</mat-placeholder>
+            <input matInput required formControlName="title">
+            <mat-error>Title is mandatory.</mat-error>
+            <mat-hint>Title of the project </mat-hint>
+        </mat-form-field>
+
+         <mat-form-field fxFlex="50">
+            <input matInput required type="text" required placeholder="Role" formControlName="role" [matAutocomplete]="autoRoles" (ngModelChange)='filterData($event,"role")'>
+            <mat-autocomplete #autoRoles="matAutocomplete">
+                <mat-option *ngFor="let role of filteredRoles" [value]="role">
+                    {{role}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint>The role played in this project (Ex. Director)</mat-hint>
+            <mat-error>Role is mandatory.</mat-error>
+        </mat-form-field>
+
+                
+    </div>
+
+     <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex>
+            <mat-placeholder>Project Url</mat-placeholder>
+            <input matInput formControlName="url" required>
+            <mat-error>Please enter valid project Url.</mat-error>
+            <mat-hint>Please share youtube/vimeo link of the video.</mat-hint>
+        </mat-form-field>     
+    </div>
+
+     <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex="100">
+            <input matInput required type="text" placeholder="Format" formControlName="category" [matAutocomplete]="autoCategory" (ngModelChange)='filterData($event,"category")'>
+            <mat-autocomplete #autoCategory="matAutocomplete">
+                <mat-option *ngFor="let category of filteredCategories" [value]="category">
+                    {{category}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Name the format this video shot in (Explainer, Documentary, etc.) .</mat-hint>
+            <mat-error>Format of the project is mandatory.</mat-error>
+        </mat-form-field>
+    </div>
+
+     <div fxLayout="row" fxLayoutGap="30px">      
+        <mat-form-field fxFlex="50">
+            <input matInput type="text" placeholder="Industry" formControlName="industry" [matAutocomplete]="autoIndustry" (ngModelChange)='filterData($event,"industry")'>
+            <mat-autocomplete #autoIndustry="matAutocomplete">
+                <mat-option *ngFor="let industry of filteredIndustries" [value]="industry">
+                    {{industry}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Name the industry of the video.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50">
+            <mat-placeholder>Client</mat-placeholder>
+            <input matInput formControlName="client">
+            <mat-hint>Name the client this project was made for</mat-hint>
+        </mat-form-field>
+     </div>
+
+
+    <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex="100">
+            <textarea matInput placeholder="Description" formControlName="description"></textarea>
+            <mat-hint>Describe the project.</mat-hint>
+        </mat-form-field>      
+    </div>
+    <!-- <div fxFlex="grow" fxLayout="row" fxLayoutGap="30px">
+        <mat-radio-group fxLayout="row" fxFlex="100" fxLayoutGap="16px">
+            <mat-radio-button value="file" [checked]="true">Upload File</mat-radio-button>
+            <mat-radio-button value="url">Add Url</mat-radio-button>
+        </mat-radio-group>    
+    </div> -->
+    
+    <!-- <div fxFlex="grow" fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex="90">
+          <input matInput type="text" formControlName="url"  placeholder="Upload File" videotype required #fileinput readonly />
+          <mat-hint align="start">Special characters not allowed in file name, only mp4 format supported.</mat-hint> 
+          <mat-error>Special characters not allowed in the file name except '_' and file type should be .mp4.</mat-error>
+       </mat-form-field>   
+      <div fxFlex="10"><a class="add_new" href="javascript:void(0)" (click)="upload.click()" style="display:inline-block;margin-top:25px;">Choose Video</a></div>
+      <input class="controls" type="file" #upload name="upload" (change)="loadVideo($event);" accept="video/*" class="noborder" hidden />
+    </div> -->
+
+    <!-- <div fxLayout="row" fxLayoutGap="30px">      
+        <mat-form-field fxFlex="50">
+            <input matInput type="text" placeholder="Country" formControlName="country" [matAutocomplete]="autoCountry" (ngModelChange)='filterData($event,"country")'>
+            <mat-autocomplete #autoCountry="matAutocomplete">
+                <mat-option *ngFor="let country of filteredCountries" [value]="country.name">
+                    {{country.name}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Select the country you made this video in.</mat-hint>
+        </mat-form-field>  
+
+         <mat-form-field fxFlex="50">
+            <input matInput type="text" placeholder="City" formControlName="city" [matAutocomplete]="cityauto" (ngModelChange)='filterData($event,"city")'>
+            <mat-autocomplete #cityauto="matAutocomplete" >
+                <mat-option *ngFor="let option of filteredcities" [value]="option">
+                {{ option}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Enter your current city .</mat-hint>
+
+        </mat-form-field> 
+    </div> -->
+
+   
+
+        
+
+        <!-- <mat-form-field fxFlex="50">
+             <mat-select placeholder="Language" formControlName="language">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let language of filteredLanguages" [value]="language">
+                {{language}}
+                </mat-option>
+             </mat-select> 
+            <mat-hint>The language the video is shot in.</mat-hint>
+        </mat-form-field>   -->
+
+        <!-- <mat-form-field fxFlex="50">
+            <mat-placeholder>Company</mat-placeholder>
+            <input matInput formControlName="company">
+            <mat-hint>Name of the company you worked for</mat-hint>
+        </mat-form-field> -->
+    
+          
+        
+
+   
+        <!-- <div fxFlex="grow" fxLayout="row" fxLayoutGap="30px">
+                <mat-form-field fxFlex="25">
+                      <mat-placeholder>Duration</mat-placeholder>
+                      <input matInput formControlName="duration">
+                      <mat-hint>Duration of the project</mat-hint>
+                  </mat-form-field>
+        
+                  <mat-form-field fxFlex="25">
+                        <mat-select placeholder="Period">
+                            <mat-option *ngFor="let periodType of periodTypes" [value]="periodType.code">{{periodType.name}}</mat-option>
+                        </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field fxFlex="50">
+                        <input matInput formControlName="date" [matDatepicker]="picker" placeholder="Project Date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div> -->
+           
+            <!-- <div fxLayout="column" fxLayoutGap="15px">
+                    <div fxLayout="row" [style.margin]="'0px 10px'">
+                             <h3 class="table-header">
+                                <span>Team</span>
+                                <button (click)="addTeam()" type="button" mat-button color="primary">
+                                    <mat-icon class="icon-small">add</mat-icon>
+                                </button>        
+                                <div class="instruction">Enter team member details who worked in this project.</div>
+                            </h3> 
+
+                    </div>
+                    <mat-divider></mat-divider>
+                    <table mat-table class="table" [class.table-condensed]="true" [dataSource]="team" >
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell class="actions-cell" *matHeaderCellDef> NAME </th>
+                        <td mat-cell *matCellDef="let element">{{element.name}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="role">
+                        <th mat-header-cell class="actions-cell" *matHeaderCellDef> ROLE </th>
+                        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+                      </ng-container>
+              
+                      <ng-container matColumnDef="phone">
+                        <th mat-header-cell class="actions-cell" *matHeaderCellDef> PHONE </th>
+                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                      </ng-container>
+              
+                      <ng-container matColumnDef="email">
+                        <th mat-header-cell class="actions-cell" *matHeaderCellDef> EMAIL </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                      </ng-container>
+                                    
+                      <ng-container matColumnDef="action">
+                        <th mat-header-cell class="actions-cell" *matHeaderCellDef>
+                          ACTIONS
+                        </th>
+                        <td mat-cell *matCellDef="let row;let i = index">
+                          <span class="fury-mobile-label"></span>
+                          <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                            <mat-icon>more_horiz</mat-icon>
+                          </button>
+            
+                          <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                            <button (click)="updateRow(row,i)" mat-menu-item>
+                              <span>Modify</span>
+                            </button>
+                            <button (click)="deleteRow(i)" mat-menu-item>
+                              <span>Delete</span>
+                            </button>
+                          </mat-menu>
+                        </td>
+                      </ng-container>
+              
+                      <tr mat-header-row *matHeaderRowDef="teamColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: teamColumns;"></tr>
+                    </table>
+            </div> -->
+           <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+                    <button mat-button (click)="closeDialog()">CANCEL</button>
+                    <button mat-raised-button (click)="addProject()">{{projectVo?'UDPATE':'SUBMIT'}}</button>
+           </mat-dialog-actions>
+  </div>
+</form> 
+ </div>

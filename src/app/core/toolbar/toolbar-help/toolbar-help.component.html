@@ -1,0 +1,22 @@
+<div class="toolbar-help" (furyClickOutside)="onClickOutside()" fxFlex="grow" fxLayout="row" fxLayoutAlign="start center">
+  <button class="button" type="button" mat-button fxFlex="grow" (click)="toggleDropdown()" [class.open]="isOpen">
+    <mat-icon class="icon">help</mat-icon>
+  </button>
+
+  <div class="dropdown mat-elevation-z1" [class.open]="isOpen">
+    <div class="content">
+      <div class="list">
+        <div class="item" matRipple>
+          <!-- <mat-icon class="icon">help</mat-icon> -->
+          <span class="title">Help</span>
+        </div> 
+        <!-- <mat-divider></mat-divider> -->
+        <div class="item" matRipple (click)="openContact()">
+          <!-- <mat-icon class="icon">exit_to_app</mat-icon> -->
+          <span class="title">Contact us</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

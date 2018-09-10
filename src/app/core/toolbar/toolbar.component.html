@@ -1,0 +1,12 @@
+<div class="toolbar" fxLayout="row" fxLayoutAlign="space-between">
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <fury-toolbar-sidenav-mobile-toggle></fury-toolbar-sidenav-mobile-toggle>
+    <img class="logo" [routerLink]="['/']" fxHide.gt-md fxHide.xs style="height: 35px; margin-left: 15px; margin-bottom: -5px;" src="assets/img/red-logo-mobile.png">
+  </div>
+
+  <div fxLayout="row">
+   <fury-toolbar-notifications class="button"></fury-toolbar-notifications>
+   <fury-toolbar-user-button class="button" [imageUrl]="sharedService.getProfileImage()"></fury-toolbar-user-button>
+   <fury-toolbar-help class="button"></fury-toolbar-help>
+  </div>
+</div>

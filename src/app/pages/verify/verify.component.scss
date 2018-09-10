@@ -1,0 +1,27 @@
+.verify {
+  display: block;
+  // background: #e8e8e8;
+  // background-size: cover;
+  height: 100%;
+  width: 100%;
+  .title{
+    margin-bottom: 14px !important;
+  }
+}
+
+.verify::after {
+  content: "";
+   background: #000 url('/assets/img/backgrounds/background.jpg') no-repeat center center fixed;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+.verify-btn{ margin-top: 20px; width: 200px;}
+
+.custom-mat-error{color: red;    
+    font-size: 11px; display: inline-block; margin: 10px 0 0 !important;}

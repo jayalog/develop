@@ -1,0 +1,68 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>Social media information</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+  <form [formGroup]="form" fxLayout="column" fxLayoutGap="20px" class="form">
+    <div fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Website</mat-placeholder>
+        <input type="text" formControlName="website" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Facebook</mat-placeholder>
+        <input type="text" formControlName="facebook" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Twitter</mat-placeholder>
+        <input type="text" formControlName="twitter" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Linked In</mat-placeholder>
+        <input type="text" formControlName="linkedin" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+    </div>
+    
+    <div fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Instagram</mat-placeholder>
+        <input type="text" formControlName="instagram" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Youtube channel</mat-placeholder>
+        <input type="text" formControlName="youtube" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Vimeo</mat-placeholder>
+        <input type="text" formControlName="vimeo" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Behance</mat-placeholder>
+        <input type="text" formControlName="behance" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+    </div>  
+
+     <mat-form-field fxFlex>
+        <mat-placeholder>Any other link?</mat-placeholder>
+        <input type="text" formControlName="others" matInput />
+        <mat-error>Please enter valid Url.</mat-error>
+      </mat-form-field>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="save()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+  </form>

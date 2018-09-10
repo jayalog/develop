@@ -1,0 +1,28 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>Edit Tools</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<div fxLayout="column" fxLayoutGap="20px">
+    <div fxLayout="row" fxLayoutGap="30px">
+    <!-- <mat-form-field fxFlex="grow">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let item of addedChips" [selectable]="true" [removable]="true" (removed)="removeChip(item)">
+          {{item}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      <input placeholder="Tools" #Input formControlName="tools" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false" [readonly]="addedChips?.length > 9" (matChipInputTokenEnd)="add($event)">
+
+      <mat-hint>Start type the tool name to add. Up to 10 tools can be added.</mat-hint>
+    </mat-form-field> -->
+
+     <chiplist fxFlex [autoCompleteList]='toolsList' [addedChips]='addedChips' (modifiedChips)="getCurChips($event)" [hint]='hint'></chiplist> 
+
+  </div>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="save()">SAVE</button>
+  </mat-dialog-actions>
+</div>

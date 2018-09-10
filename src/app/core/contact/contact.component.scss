@@ -1,0 +1,33 @@
+@import "var";
+// .close-button{
+//     position: absolute;
+//     top: 10%;
+//     right: 20%;
+//     background: none;
+//     border: none;
+//     color: #fff;
+//     outline: none;
+//     cursor: pointer;
+//     .mat-icon{
+//         font-size: 50px;
+//     }
+
+// }
+.contact-left{
+    // background: $RBFC_RED;
+    // color: #fff;
+    padding: 0 20px 20px;
+    font-size: 18px;
+    color:  $RBFC_RED;
+    h2{
+        margin: 0;
+        padding-bottom: 15px;
+        letter-spacing: 1px;
+    }
+    .mat-icon{
+        vertical-align: middle;
+        margin-right: 15px;
+    }
+    // border-radius: 10px 0 0px 10px;
+}
+

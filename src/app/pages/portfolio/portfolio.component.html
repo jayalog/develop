@@ -1,0 +1,22 @@
+<fury-loading-overlay [isLoading]="isLoading"></fury-loading-overlay>
+<fury-scrollbar>
+<!-- <div class="add-project">
+  <button class="link" mat-button (click)="onAddProject()">
+    <i class="material-icons mat-light-red">add_circle_outline</i>&nbsp;&nbsp;Add Project
+  </button>
+</div> -->
+<div class="page-top">
+    <h2>Portfolio</h2>
+</div>
+
+<div class="content-center">
+
+  <div fxLayout="column" fxLayoutGap="25px">
+    <fury-project-details-grid (editProject)="onAddProject($event)" (deleteProject)="onDeleteProject($event)" (onAddProject)="onAddProject(-1)" [portfolio]="portfolio"></fury-project-details-grid>
+  </div>
+  
+</div>
+
+</fury-scrollbar>
+
+

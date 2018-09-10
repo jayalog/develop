@@ -1,0 +1,45 @@
+.register {
+  display: block;
+  // background: #e8e8e8;
+  // background-size: cover;
+  height: 100%;
+  width: 100%;
+    .title{
+      padding-bottom: 10px;
+    }
+    min-height: min-content;
+    min-height: -webkit-min-content;
+    min-height: -moz-min-content;
+    min-height: -ms-min-content;
+    overflow: auto;
+}
+
+.register::after {
+  content: "";
+   background: #000 url('/assets/img/backgrounds/background.jpg') no-repeat center center fixed;
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+}
+
+.session-card-big{ width: 600px;}
+
+.custom-mat-error{color: red;     position: absolute;
+    left: 0;
+    bottom: -18px;
+    font-size: 11px;}
+
+.signup-btn{
+  margin-top: 0 !important;
+  width: 200px;
+}
+
+.extra{margin-bottom: 0 !important;}
+
+.terms{ font-size: 14px; color: #929292; margin:20px 0 10px 0!important;}
+
+.extra-options{ margin: 15px 0;}

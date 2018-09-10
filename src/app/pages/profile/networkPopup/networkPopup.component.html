@@ -1,0 +1,53 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Network</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form" fxLayout="column" fxLayoutGap="20px">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Name</mat-placeholder>
+        <input type="text" required formControlName="name" matInput>
+        <mat-error>Name is required</mat-error>
+      </mat-form-field>
+
+       <mat-form-field fxFlex='50'>
+        <input matInput required type="text" placeholder="Role" formControlName="role" [matAutocomplete]="roleauto" (ngModelChange)='filterRoles($event)'>
+        <mat-error>Role is required</mat-error>
+        <mat-autocomplete #roleauto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredroles" [value]="option">
+            {{ option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+    </div>
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-placeholder>Url</mat-placeholder>
+        <input type="text" formControlName="url" matInput>
+      </mat-form-field>
+    </div> -->
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex='50'>
+          <mat-placeholder>Email</mat-placeholder>
+          <input type="email" formControlName="email" matInput>
+          <mat-error>Email id is not valid.</mat-error>
+        </mat-form-field>
+          
+        <mat-form-field fxFlex='50'>
+          <mat-placeholder>Mobile</mat-placeholder>
+          <input type="text" formControlName="mobile" matInput>
+          <mat-error>Mobile number is not valid.</mat-error>
+        </mat-form-field>
+    </div>
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-placeholder>Description</mat-placeholder>
+        <textarea type="text" formControlName="description" matInput></textarea>
+      </mat-form-field>
+    </div> -->
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm($event)" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>

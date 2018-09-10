@@ -1,0 +1,142 @@
+
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between" mat-dialog-title>
+  <h2>Edit Personal Information</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<div>
+
+<form [formGroup]="form" >
+<mat-dialog-content fxFlex fxLayout="column" fxLayoutGap="30px" >
+
+    <div fxFlex fxLayout="row" fxLayoutGap="30px" *ngIf='data.data.brandname'>
+      <mat-form-field fxFlex="50">
+        <mat-placeholder>Production house name</mat-placeholder>
+        <input matInput required type="text" formControlName="brandname">
+        <mat-hint>Enter the name of your organisation.</mat-hint>
+        <mat-error>Production house name is mandatory.</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="50">
+        <mat-placeholder>Production house url</mat-placeholder>
+        <input matInput required type="text" formControlName="brandurl">
+        <mat-hint>Enter the url of your organisation.</mat-hint>
+        <mat-error>Production house url is mandatory.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div fxFlex fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex>
+        <mat-placeholder>Full name</mat-placeholder>
+        <input matInput required formControlName="name">
+        <mat-error>Name is mandatory.</mat-error>
+        <mat-hint>Enter your full name..</mat-hint>
+      </mat-form-field>
+      <!-- <mat-form-field fxFlex="50">
+      <input matInput required type="text" placeholder="Primary Role" formControlName="role" [matAutocomplete]="roleauto" (ngModelChange)='filterRoles($event)'>
+      <mat-autocomplete #roleauto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredroles" [value]="option">
+          {{ option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>Enter your role (Ex. Director).</mat-hint>
+      </mat-form-field> -->
+  </div>
+  <div fxFlex fxLayout="row" fxLayoutGap="30px">
+    <mat-form-field fxFlex="50">
+      <mat-placeholder>Email</mat-placeholder>
+      <input matInput required formControlName="email">
+      <mat-hint>Email id cannot be edited.</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="50">
+      <mat-placeholder>Mobile</mat-placeholder>
+      <input matInput required formControlName="mobile">
+      <mat-error *ngIf="form.controls.mobile.errors?.required">Mobile is mandatory.</mat-error>
+      <mat-error *ngIf="form.controls.mobile.errors?.pattern">Must be a valid mobile number.</mat-error>
+      <mat-hint>Enter mobile number.</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex fxLayout="row" fxLayoutGap="20px">
+    <mat-form-field fxFlex="50">
+
+      <mat-select placeholder="Country" formControlName="country" required  (ngModelChange)='filterCountries($event)'>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let option of filteredCountries" [value]="option.name">
+              {{option.name}}
+          </mat-option>
+      </mat-select>
+
+      <!-- <input matInput type="text" placeholder="Country" formControlName="country" required [matAutocomplete]="autoCountry" (ngModelChange)='filterCountries($event)'>
+      <mat-autocomplete #autoCountry="matAutocomplete">
+        <mat-option *ngFor="let option of filteredCountries" [value]="option.name">
+          {{ option.name}}
+        </mat-option>
+      </mat-autocomplete> -->
+      <mat-hint>Select your current country.</mat-hint>
+    </mat-form-field>
+    <mat-form-field fxFlex="50">
+
+       <mat-select placeholder="City" formControlName="city" required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let option of filteredcities" [value]="option">
+              {{option}}
+          </mat-option>
+      </mat-select>
+
+      <!-- <input matInput type="text" placeholder="City" formControlName="city" [matAutocomplete]="cityauto" (ngModelChange)='filterCities($event)'>
+      <mat-autocomplete #cityauto="matAutocomplete" >
+          <mat-option *ngFor="let option of filteredcities" [value]="option">
+          {{ option}}
+          </mat-option>
+      </mat-autocomplete> -->
+       <mat-hint>Enter your current city .</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div fxFlex fxLayout="row" fxLayoutGap="20px">
+    <mat-form-field fxFlex="100">
+      <textarea matInput placeholder="Address" formControlName="address"></textarea>
+      <mat-hint>Enter communication address.</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <!-- <div fxFlex fxLayout="row" [style.margin-bottom]="'20px'">
+    <div fxFlex='100'>
+      <range-slider min="{{sliderDefaultValues?.min}}" max="{{sliderDefaultValues?.max}}" currencyType="{{data.data?.currencytype}}" label="Your fee range per project" [minVal]="rate?.min" [maxVal]="rate?.max" (onSliderChange)="onHourlyRateChange($event)"></range-slider>
+    </div>        
+  </div> -->
+
+  <!-- <div fxFlex fxLayout="row" fxLayoutGap="20px">
+    <mat-form-field fxFlex="grow" class="sec-roles">
+
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let role of secRoles" [selectable]="true" [removable]="true" (removed)="removeRole(role)">
+          {{role}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="Secondary roles" #secRoleInput formControlName="otherroles" [matAutocomplete]="autoSecRole" [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false"  (matChipInputTokenEnd)="add($event)" (ngModelChange)='filterSecRoles($event)'>
+      </mat-chip-list>
+      <mat-autocomplete #autoSecRole="matAutocomplete" (optionSelected)="roleSelected($event)">
+        <mat-option *ngFor="let role of filteredSecRoles" [value]="role">
+          {{role}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint>Start type role to add. Up to 10 roles can be added.</mat-hint>
+    </mat-form-field>
+  </div> -->
+
+  <div fxFlex fxLayout="row" fxLayoutGap="20px">
+    <mat-form-field fxFlex="100">
+      <textarea matInput placeholder="About me" formControlName="description"></textarea>
+      <mat-hint>Description about you.</mat-hint>
+    </mat-form-field>
+  </div>
+  </mat-dialog-content>
+
+  <div fxFlex fxLayout="row" fxLayoutAlign="end center" mat-dialog-actions>
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm()">SAVE</button>
+  </div>
+</form>
+</div>

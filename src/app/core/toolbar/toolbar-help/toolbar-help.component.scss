@@ -1,0 +1,60 @@
+@import "var";
+
+.toolbar-help {
+  position: relative;
+  display: flex;
+
+  .button {
+    height: 100%;
+    padding: 0;
+    min-width: $toolbar-button-width;
+
+    .icon {
+      color: $toolbar-button-icon-color;
+    }
+  }
+
+  .dropdown {
+    background: white;
+    position: absolute;
+    top: $toolbar-height;
+    right: 0;
+    width: 100%;
+    min-width: 160px;
+    z-index: -1;
+    transform: translateY(-110%);
+    visibility: hidden;
+    transition: transform .4s cubic-bezier(.25,.8,.25,1), visibility .4s cubic-bezier(.25,.8,.25,1);
+
+    .list {
+      padding-top: $spacing/3;
+
+      .item {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: center;
+        height: 48px;
+        padding: 0 $spacing/1.5;
+        position: relative;
+        cursor: pointer;
+        outline: none;
+
+        .icon {
+          padding-right: $spacing/1.5;
+          color: $theme-icon;
+        }
+
+        .title {
+
+        }
+      }
+    }
+
+    &.open {
+      transform: translateY(0);
+      visibility: visible;
+    }
+  }
+}

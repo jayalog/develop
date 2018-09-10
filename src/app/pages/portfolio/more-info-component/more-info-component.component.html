@@ -1,0 +1,100 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+    <h2 *ngIf="portfolio?.title" mat-dialog-title>{{portfolio?.title}}</h2>
+    <i class="material-icons closeIcon" (click)="closeDialog()">close</i>
+</div>
+<div class="content" fxLayout="column" fxLayoutGap="20px" >
+
+   
+    <div fxFlex fxLayout="row" *ngIf="portfolio?.url" fxLayoutGap="30px">
+        <div fxFlex="100">
+            <!-- <a *ngIf="!projecturl" [href]="portfolio.url" target="_blank"><img class="thumbnail" src="assets/img/backgrounds/video-thumbnail-default.png" width="100%" />  </a> -->
+             <iframe *ngIf="projecturl" width="100%" height="345" [style.border]="'none'" [src]="projecturl">
+            </iframe>
+            <div class="noPreview" *ngIf="!projecturl" fxFlex fxLayoutAlign='center center'><span [style.display]="'block'"> Sorry!! This project cannot be previewed here. </span></div> 
+             <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/BYQrAe3VTfY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+        </div>      
+    </div>
+
+     <div fxLayout="row" *ngIf="portfolio?.role" fxLayoutGap="10px">
+            <span class="bold">Role: </span><span>{{portfolio?.role}}</span>
+    </div>
+
+     <div fxLayout="row" *ngIf="portfolio?.category" fxLayoutGap="10px">
+            <span class="bold">Format: </span><span>{{portfolio?.category}}</span>
+    </div>
+
+    <div *ngIf="portfolio?.url">
+        <span class="bold">Project url: </span>
+        <a *ngIf="portfolio?.url.indexOf('https') !== -1 && portfolio?.url.indexOf('https') !== -1" href="{{portfolio?.url}}" target="_blank" class="secondary-link">{{portfolio?.url}}</a>
+        <a *ngIf="portfolio?.url.indexOf('https') === -1 && portfolio?.url.indexOf('https') === -1" href="//{{portfolio?.url}}" target="_blank" class="secondary-link">{{portfolio?.url}}</a>
+        <!-- <a href="//{{portfolio.url}}" target="_blank" class="secondary-link">{{portfolio?.url}}</a> -->
+        <!-- <span>{{portfolio?.duration}}</span>   -->
+    </div>
+    
+    <div *ngIf="portfolio?.description">
+        <span class="bold">Project description: </span>{{portfolio?.description}}
+    </div>
+
+    <div *ngIf="portfolio?.client">
+        <span class="bold">Client: </span>{{portfolio?.client}}
+    </div>
+
+    <div *ngIf="portfolio?.genre" >
+        <span class="bold">Genre: </span>{{portfolio?.genre}}
+    </div>
+
+     <!-- <div *ngIf="portfolio?.language" >
+        <span class="bold">Language: </span>{{portfolio?.language}}
+    </div> -->
+    <!-- <div fxLayout="row" fxLayoutGap="10px">
+        <span *ngIf="portfolio?.client">Client: {{portfolio?.client}}</span>
+        <span *ngIf="portfolio?.client" class="seperatorSpan"></span>-->
+        <!-- <span *ngIf="portfolio?.company">Company: {{portfolio?.company}}</span> -->
+        <!--<span *ngIf="portfolio?.company" class="seperatorSpan"></span>
+        <span *ngIf="portfolio?.genre" >Genre: {{portfolio?.genre}}</span>
+        <span *ngIf="portfolio?.genre" class="seperatorSpan"></span>
+        <span *ngIf="portfolio?.language">Language: {{portfolio?.language}}</span>
+        <span *ngIf="portfolio?.language" class="seperatorSpan"></span>
+        <span *ngIf="portfolio?.budget">Budget: {{portfolio?.budget}}</span>
+        <span *ngIf="portfolio?.budget" class="seperatorSpan"></span>
+        <span *ngIf="portfolio?.billed">Billed: {{portfolio?.billed}}</span>
+  
+    </div> -->
+    <!-- <div *ngIf=" portfolio?.country" >
+        <span class="bold">Location: </span> <span>{{portfolio?.country}}, {{portfolio?.city}}</span>
+    </div> -->
+    
+    <!-- <div *ngIf="teamDetails?.length > 0" fxLayout="column" fxLayoutGap="15px">
+            <div fxLayout="row" [style.margin]="'0px 10px'">
+                    <span class="bold">Team</span>
+                    <span fxFlex></span>
+            </div>
+            <table mat-table class="table" [class.table-condensed]="true" [dataSource]="teamDetails">
+                <ng-container matColumnDef="name">
+                <th mat-header-cell class="actions-cell" *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element">{{element.name}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="role">
+                <th mat-header-cell class="actions-cell" *matHeaderCellDef> Role </th>
+                <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="phone">
+                <th mat-header-cell class="actions-cell" *matHeaderCellDef> Mobile </th>
+                <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="email">
+                <th mat-header-cell class="actions-cell" *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+        
+                           
+                <tr mat-header-row *matHeaderRowDef="teamColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: teamColumns;"></tr>
+            </table>
+    </div> -->
+          
+  </div>
+

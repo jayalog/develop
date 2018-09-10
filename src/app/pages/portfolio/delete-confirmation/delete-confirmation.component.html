@@ -1,0 +1,14 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>Delete Confirmation</h2>
+  <i class="material-icons closeIcon" (click)="closeDialog()">close</i>
+</div>
+<div>
+    <div fxLayout="row" [style.margin-bottom]="'20px'">
+        {{confirmationText}}
+    </div>
+    <div fxLayout="row">
+      <span fxFlex></span>
+      <button (click)="noClick()" mat-button>No</button>
+      <button (click)="yesClick()" mat-button>Yes</button>
+  </div>
+</div>

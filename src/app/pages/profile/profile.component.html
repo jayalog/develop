@@ -1,0 +1,679 @@
+<fury-loading-overlay [isLoading]="isLoading"></fury-loading-overlay>
+<fury-scrollbar>
+    <div class="profile-container">
+      <div class="page-top" fxFlex="grow" fxLayout="row" fxLayoutGap="25px" style="padding-bottom: 0; border:0">
+         <h2>Profile</h2>
+         <span fxFlex='grow'></span>
+         <fury-profile-calculation (percentageChange)="fetchPercentage($event)" fxFlex=20></fury-profile-calculation>
+      </div>
+
+      <div class="profile-header" fxFlex="grow" fxLayout="column" fxLayoutGap="25px">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Personal Information</div>
+          <button (click)="editPersonalInfo()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small">edit</mat-icon>
+          </button>
+        </h3>
+        <div *ngIf="profileInfo.usertype == 'brand'">
+          <h4 class="brand-name">{{profileInfo.brandname}} </h4>
+          <div *ngIf="profileInfo.brandurl">
+            <a *ngIf="profileInfo?.brandurl.indexOf('http') !== -1 && profileInfo?.brandurl.indexOf('https') !== -1" href="{{profileInfo?.brandurl}}" target="_blank" class="secondary-link">{{profileInfo?.brandurl}}</a>
+            <a *ngIf="profileInfo?.brandurl.indexOf('http') === -1 && profileInfo?.brandurl.indexOf('https') === -1" href="//{{profileInfo?.brandurl}}" target="_blank" class="secondary-link">{{profileInfo?.brandurl}}</a>
+          </div>
+          <!-- <a [href]="profileInfo.brandurl" target="_blank" class="secondary-link" *ngIf="profileInfo.brandurl">{{profileInfo.brandurl}}</a> -->
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayoutGap="25px">
+          <div class="profile-avatar">
+            <div style="position: relative;">
+              <img *ngIf="profileInfo.avatar" [src]="profileInfo.avatar" (click)='editAvatar()' />
+              <img *ngIf="!profileInfo.avatar" (click)='editAvatar()' src='../../../assets/img/avatars/noavatar.png' onerror="this.src='../../../assets/img/avatars/noavatar.png';"
+              />
+              <button mat-mini-fab class="edit-img" (click)='editAvatar()'>
+                <mat-icon class="icon-small">edit</mat-icon>
+              </button>
+            </div>
+            <div class="profile-status bold not-verified" *ngIf='profileInfo.profilestatus == "Waiting for review" || profileInfo.profilestatus == null'>{{profileInfo.profilestatus || 'Waiting for review'}}</div>
+            <div class="profile-status bold verified" *ngIf='profileInfo.profilestatus == "verified"'>{{profileInfo.profilestatus}}</div>
+          </div>
+
+          <div class="img-text" fxFlex='28' fxLayout="column" fxLayoutGap="10px">
+            <h4 class="profile-name">
+              <span style="vertical-align: middle;">{{profileInfo.name}}</span>
+              <div class="location">
+                <mat-icon role="img" aria-hidden="true">location_on </mat-icon>
+                <span style="vertical-align: middle;">{{profileInfo.city}}, {{profileInfo.country}}</span>
+              </div>
+            </h4>
+            <!-- <div class="profile-role">
+              {{profileInfo.role}}<span *ngIf='profileInfo.otherroles'>,&nbsp;</span><span class="other-roles" *ngFor="let role of profileInfo.otherroles; let i = index;"><span *ngIf='i < 3'>{{ role }}</span> <span *ngIf='i < 2'>,&nbsp;</span> </span>
+            </div> -->
+            <div class="contact-info">
+              <div class="email">
+                  <mat-icon>mail_outline </mat-icon>
+                  <span>{{profileInfo.email}}</span>
+               </div>
+            </div>
+            <div class="contact-info">
+              <div *ngIf='profileInfo.mobile'>
+                <mat-icon>phone </mat-icon>
+                <span>{{profileInfo.mobile}}</span>
+              </div>
+            </div>
+            <!-- <div *ngIf="profileInfo.rate">
+              <span>{{currencyType}}&nbsp;{{profileInfo.rate?.min}} - {{currencyType}}&nbsp;{{profileInfo.rate?.max}}</span>
+              <span>&nbsp;| Hourly Rate</span>
+            </div>
+            <div *ngIf="!profileInfo.rate">
+              <span>{{currencyType}} 0 - {{currencyType}} 0</span>
+              <span>&nbsp;| Hourly Rate</span>
+            </div> -->
+          </div>
+
+          <div class="contact-info" fxFlex='25' fxLayout="column" fxLayoutGap="10px">
+            <!-- <h4>Contact Information</h4> -->
+            
+            <div *ngIf='profileInfo.address' fxFlex fxLayout="row" class="address">
+              <mat-icon>home </mat-icon>
+              <span>{{profileInfo.address}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div fxFlex fxLayout="column" *ngIf='profileInfo.description'> -->
+          <!-- <div *ngIf='profileInfo.otherroles'>
+            <span class="bold">Other Roles:&nbsp;</span>
+            <span class="other-roles" *ngFor="let role of profileInfo.otherroles">{{ role }}, </span>
+          </div> -->
+          <div *ngIf='profileInfo.description'>
+            <p style="margin:-10px 0 0">{{profileInfo.description}}</p>
+          </div>
+        <!-- </div> -->
+      </div>
+
+       <div fxFlex fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Roles &amp; Budget</div>
+          <button (click)="addOtherRoles()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>        
+          <!-- <p class="instruction">What are the languages you are proficient in?</p> -->
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.secroles" style="width: 50%;" *ngIf="profileInfo.secroles?.length > 0 ">
+          <ng-container matColumnDef="role">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> ROLE </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="budget">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> BUDGET </th>
+            <td mat-cell *matCellDef="let element"> {{element.currency}} {{element.budget}} {{element.timerange}}</td>
+          </ng-container>
+
+          <!-- <ng-container matColumnDef="timerange">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> TIME </th>
+            <td mat-cell *matCellDef="let element"> {{element.timerange}} </td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row; let i = index;">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateOtherRoles(row, i)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteOtherRole(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="otherRolesColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: otherRolesColumn;"></tr>
+        </table>
+
+         <div *ngIf="!profileInfo.secroles || profileInfo.secroles.length == 0 "> Specify your other roles and budget.</div> 
+      </div>
+
+      <div fxFlex fxLayout="column" class="blocks" fxLayoutGap="15px">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Website &amp; Social media links</div>
+          <button (click)="editLinks()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small" *ngIf="profileInfo.links">edit</mat-icon>
+            <mat-icon *ngIf="!profileInfo.links">add</mat-icon>
+          </button>
+        </h3>
+        
+        <div class="sociallinks">
+
+          <div class="socialItems" *ngIf='profileInfo.links?.website && profileInfo.links?.website !== null'>
+            <img src="../../../assets/icons/icon_web.png" /> 
+            <a *ngIf="profileInfo.links.website.indexOf('https') !== -1 && profileInfo.links.website.indexOf('http') !== -1" href='{{profileInfo.links.website}}' target="_blank">{{profileInfo.links.website}}</a>
+            <a *ngIf="profileInfo.links.website.indexOf('https') === -1 || profileInfo.links.website.indexOf('http') === -1" href='//{{profileInfo.links.website}}' target="_blank">{{profileInfo.links.website}}</a>
+          </div>
+          <div class="socialItems" *ngIf='profileInfo.links?.facebook'>
+            <img src="../../../assets/icons/icon_facebook.png" /> 
+            <a *ngIf="profileInfo.links.facebook.indexOf('https') !== -1 && profileInfo.links.facebook.indexOf('http') !== -1" href='{{profileInfo.links.facebook}}' target="_blank">{{profileInfo.links.facebook}}</a>
+            <a *ngIf="profileInfo.links.facebook.indexOf('https') === -1 || profileInfo.links.facebook.indexOf('http') === -1" href='//{{profileInfo.links.facebook}}' target="_blank">{{profileInfo.links.facebook}}</a>
+          </div>
+          <div class="socialItems" *ngIf='profileInfo.links?.twitter'>
+            <img src="../../../assets/icons/icon_twitter.png" /> 
+            <a *ngIf="profileInfo.links.twitter.indexOf('https') !== -1 && profileInfo.links.twitter.indexOf('http') !== -1" href='{{profileInfo.links.twitter}}' target="_blank">{{profileInfo.links.twitter}}</a>
+            <a *ngIf="profileInfo.links.twitter.indexOf('https') === -1 || profileInfo.links.twitter.indexOf('http') === -1" href='//{{profileInfo.links.twitter}}' target="_blank">{{profileInfo.links.twitter}}</a>
+          </div>
+
+          <div class="socialItems" *ngIf='profileInfo.links?.linkedin'>
+            <img src="../../../assets/icons/icon_linkedin.png" /> 
+            <a *ngIf="profileInfo.links.linkedin.indexOf('https') !== -1 && profileInfo.links.linkedin.indexOf('http') !== -1" href='{{profileInfo.links.linkedin}}' target="_blank">{{profileInfo.links.linkedin}}</a>
+            <a *ngIf="profileInfo.links.linkedin.indexOf('https') === -1 || profileInfo.links.linkedin.indexOf('http') === -1" href='//{{profileInfo.links.linkedin}}' target="_blank">{{profileInfo.links.linkedin}}</a>
+          </div>
+
+          <div class="socialItems" *ngIf='profileInfo.links?.instagram'>
+            <img src="../../../assets/icons/icon_instagram.png" /> 
+            <a *ngIf="profileInfo.links.instagram.indexOf('https') !== -1 && profileInfo.links.instagram.indexOf('http') !== -1" href='{{profileInfo.links.instagram}}' target="_blank">{{profileInfo.links.instagram}}</a>
+            <a *ngIf="profileInfo.links.instagram.indexOf('https') === -1 || profileInfo.links.instagram.indexOf('http') === -1" href='//{{profileInfo.links.instagram}}' target="_blank">{{profileInfo.links.instagram}}</a>
+          </div>
+          <div class="socialItems" *ngIf='profileInfo.links?.youtube'>
+            <img src="../../../assets/icons/icon_youtube.png" /> 
+            <a *ngIf="profileInfo.links.youtube.indexOf('https') !== -1 && profileInfo.links.youtube.indexOf('http') !== -1" href='{{profileInfo.links.youtube}}' target="_blank">{{profileInfo.links.youtube}}</a>
+            <a *ngIf="profileInfo.links.youtube.indexOf('https') === -1 || profileInfo.links.youtube.indexOf('http') === -1" href='//{{profileInfo.links.youtube}}' target="_blank">{{profileInfo.links.youtube}}</a>
+          </div>
+          <div class="socialItems" *ngIf='profileInfo.links?.vimeo'>
+            <img src="../../../assets/icons/icon_vimeo.png" /> 
+            <a *ngIf="profileInfo.links.vimeo.indexOf('https') !== -1 && profileInfo.links.vimeo.indexOf('http') !== -1" href='{{profileInfo.links.vimeo}}' target="_blank">{{profileInfo.links.vimeo}}</a>
+            <a *ngIf="profileInfo.links.vimeo.indexOf('https') === -1 || profileInfo.links.vimeo.indexOf('http') === -1" href='//{{profileInfo.links.vimeo}}' target="_blank">{{profileInfo.links.vimeo}}</a>
+          </div>
+
+          <div class="socialItems" *ngIf='profileInfo.links?.behance'>
+            <img src="../../../assets/icons/icon_behance.png" /> 
+            <a *ngIf="profileInfo.links.behance.indexOf('https') !== -1 && profileInfo.links.behance.indexOf('http') !== -1" href='{{profileInfo.links.behance}}' target="_blank">{{profileInfo.links.behance}}</a>
+            <a *ngIf="profileInfo.links.behance.indexOf('https') === -1 || profileInfo.links.behance.indexOf('http') === -1" href='//{{profileInfo.links.behance}}' target="_blank">{{profileInfo.links.behance}}</a>
+          </div>
+
+          <div class="socialItems" *ngIf='profileInfo.links?.others'>
+            <img src="../../../assets/icons/icon_web.png" /> 
+            <a *ngIf="profileInfo.links.others.indexOf('https') !== -1 && profileInfo.links.others.indexOf('http') !== -1" href='{{profileInfo.links.others}}' target="_blank">{{profileInfo.links.others}}</a>
+            <a *ngIf="profileInfo.links.others.indexOf('https') === -1 || profileInfo.links.others.indexOf('http') === -1" href='//{{profileInfo.links.others}}' target="_blank">{{profileInfo.links.others}}</a>
+          </div>
+
+          <div class="socialItems" *ngIf="!profileInfo.links || (profileInfo.links?.website == null && profileInfo.links?.facebook == null && profileInfo.links?.twitter == null &&profileInfo.links?.instagram == null && profileInfo.links?.youtube == null && profileInfo.links?.vimeo == null)"> Share us your social media information.</div>
+        </div>
+      </div>
+
+
+      <div fxFlex fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Preferred working locations</div>
+          <button (click)="addOtherLocation()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>        
+          <!-- <p class="instruction">What are the languages you are proficient in?</p> -->
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.otherLocations" style="width: 50%;" *ngIf="profileInfo.otherLocations?.length > 0 ">
+          <ng-container matColumnDef="city">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> CITY </th>
+            <td mat-cell *matCellDef="let element"> <span *ngIf='element.city'>{{element.city}}</span> <span *ngIf='!element.city'>-</span> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="country">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> COUNTRY </th>
+            <td mat-cell *matCellDef="let element"> {{element.country}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row; let i = index;">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateLocation(row, i)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteLocations(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="otherLocnColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: otherLocnColumn;"></tr>
+        </table>
+
+         <div *ngIf="!profileInfo.otherLocations || profileInfo.otherLocations.length == 0 "> Please specify your preffered working locations?</div> 
+      </div>
+
+      <div fxFlex fxLayout="column" class="categories blocks" fxLayoutGap="15px">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Formats</div>
+          <button (click)="editCategories()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small" *ngIf="profileInfo.categories?.length > 0 ">edit</mat-icon>
+            <mat-icon *ngIf="!profileInfo.categories || profileInfo.categories?.length == 0 ">add</mat-icon>
+          </button>
+          <!-- <p class="instruction"> Name all the film formats you’ve worked on (Ex, Advertisement, Explainer, etc.)</p> -->
+        </h3>
+        
+        <div fxLayout="row" fxFlex="grow">          
+          <span *ngFor="let i = index; let id of profileInfo.categories">
+            {{id}}
+            <span class="seperator" *ngIf="i != profileInfo.categories?.length-1">|</span>
+          </span>
+          <div *ngIf="!profileInfo.categories || profileInfo.categories.length == 0 ">Name all the film formats you’ve worked on (Ex, Advertisement, Explainer, etc.) </div>
+        </div>
+      </div>
+
+      <div fxFlex fxLayout="column" class="clients blocks" fxLayoutGap="15px">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Industries</div>
+          <button (click)="editIndustries()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small" *ngIf="profileInfo.industries?.length > 0 ">edit</mat-icon>
+            <mat-icon *ngIf="!profileInfo.industries || profileInfo.industries?.length == 0 ">add</mat-icon>
+          </button>
+          <!-- <p class="instruction">Name all the Industries that you’ve made films for (Ex, Retail, F&amp;B, etc.)</p> -->
+        </h3>
+        <div fxLayout="row" fxFlex="grow">
+          
+          <span *ngFor="let i = index; let id of profileInfo.industries">
+            {{id}}
+            <span class="seperator" *ngIf="i != profileInfo.industries?.length-1">|</span>
+          </span>
+           <div *ngIf="!profileInfo.industries || profileInfo.industries.length == 0 "> Name all the Industries that you’ve made films for (Ex, Retail, F&amp;B, etc.)</div> 
+        </div>
+      </div>
+
+      <div fxFlex fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Languages</div>
+          <button (click)="addLanguage()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>        
+          <!-- <p class="instruction">What are the languages you are proficient in?</p> -->
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.languages" style="width: 50%;" *ngIf="profileInfo.languages?.length > 0 ">
+          <ng-container matColumnDef="language">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> LANGUAGE </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="proficiency">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> PROFICIENCY </th>
+            <td mat-cell *matCellDef="let element"> {{element.proficiency}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row; let i = index;">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateLanguage(row, i)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteLanguage(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="languagesColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: languagesColumns;"></tr>
+        </table>
+
+         <div *ngIf="!profileInfo.languages || profileInfo.languages.length == 0 "> What are the languages you are proficient in?</div> 
+      </div>
+
+      <!-- <div fxFlex fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header">
+          <span>Experience</span>
+          <button (click)="addExperience()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>        
+          <div class="instruction">Share details about your previous work experience</div>
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.experience" *ngIf="profileInfo.experience?.length > 0 ">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.companyname}}
+              <br />
+              <a class="secondary-link" style="padding-top: 5px; display:inline-block;" [href]="element.companyurl" target="_blank">
+                {{element.companyurl}} </a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="location">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> LOCATION </th>
+            <td mat-cell *matCellDef="let element"> {{element.country}},&nbsp;{{element.city}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> ROLE </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="duration">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> DURATION </th>
+            <td mat-cell *matCellDef="let element"> {{element.from | date: 'MMM yyyy'}} - {{element.to | date: 'MMM yyyy'}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> TYPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateExperience(row)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteExperience(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="profileExpColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: profileExpColumns;"></tr>
+        </table>
+
+         <div *ngIf="!profileInfo.experience || profileInfo.experience.length == 0 "> <a href='javascript:void(0)' (click)="addExperience()"> Click here </a> to add details.</div> 
+      </div> -->
+
+      <div fxFlex fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Awards</div>
+          <button (click)="addAwards()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+          <!-- <div class="instruction">Please share links to awards won, features, etc.</div> -->
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.awards" *ngIf="profileInfo.awards?.length > 0 ">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> CATEGORY </th>
+            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> TYPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="date">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> DATE </th>
+            <td mat-cell *matCellDef="let element"> {{element.date | date: 'MMM yyyy'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="client">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> CLIENT </th>
+            <td mat-cell *matCellDef="let element"> {{element.client}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="url">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> URL </th>
+            <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row; let i = index;">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateAwards(row, i)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteAwards(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="awardsColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: awardsColumn;"></tr>
+        </table>
+
+         <div *ngIf="!profileInfo.awards || profileInfo.awards.length == 0 "> Please share links to awards won, features, etc.</div> 
+
+      </div>
+
+      <div fxFlex="grow" fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Invite a friend!</div>
+          <button (click)="addNetwork()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+          <!-- <div class="instruction">Please add details of your friend to invite.</div> -->
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.network" *ngIf="profileInfo.network?.length > 0 ">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mobile">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> MOBILE </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> EMAIL </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> ROLE </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> DESCRIPTION </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="url">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> URL </th>
+            <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateNetwork(row)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteNetwork(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="networkColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: networkColumn;"></tr>
+        </table>
+        <div *ngIf="!profileInfo.network || profileInfo.network.length == 0 "> Please add details of your friend to invite.</div> 
+      </div>
+
+      <!-- <div fxFlex="grow" fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header">
+          <span>Reference</span>
+          <button (click)="addReference()" type="button" mat-button color="primary">
+            <mat-icon>add</mat-icon>
+          </button>        
+          <div class="instruction">Please share reference contact details </div>
+        </h3>
+        <table mat-table class="table" [class.table-condensed]="true" [dataSource]="profileInfo.reference" *ngIf="profileInfo.reference?.length > 0 ">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> NAME </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="mobile">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> MOBILE </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobile}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> EMAIL </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef> ROLE </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell class="actions-cell" *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <span class="fury-mobile-label"></span>
+              <button type="button" mat-icon-button [matMenuTriggerFor]="actionsMenu" (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #actionsMenu="matMenu" yPosition="below" xPosition="before">
+                <button (click)="updateReference(row, i)" mat-menu-item>
+                  <span>Modify</span>
+                </button>
+                <button (click)="deleteReference(row, i)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="referenceColumn"></tr>
+          <tr mat-row *matRowDef="let row; columns: referenceColumn;"></tr>
+        </table>
+         <div *ngIf="!profileInfo.reference || profileInfo.reference.length == 0 "> <a href='javascript:void(0)' (click)="addReference()"> Click here </a> to add details.</div> 
+      </div> -->
+
+      <!-- <div fxFlex="grow" fxLayout="column" class="tools blocks" fxLayoutGap="15px">
+        <h3 class="table-header">
+          <span>Tools</span>
+          <button (click)="editTools()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small">edit</mat-icon>
+          </button>        
+          <div class="instruction">What tools are you proficient in (if any) (Ex, Camera, Adobe Creative Cloud, etc.)</div>
+        </h3>
+        <div fxLayout="row" fxFlex="grow">
+          <span *ngFor="let i = index; let id of profileInfo.tools">
+            {{id}}
+            <span class="seperator" *ngIf="i != profileInfo.tools?.length-1">|</span>
+          </span>
+          <div *ngIf="!profileInfo.tools || profileInfo.tools.length == 0 "> <a href='javascript:void(0)' (click)="editTools()"> Click here </a> to add details.</div>
+        </div>
+      </div> -->
+
+      <!-- <div fxFlex="grow" fxLayout="column" class="genres blocks" fxLayoutGap="15px">
+        <h3 class="table-header">
+          <span>Genres</span>
+          <button (click)="editGenres()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small">edit</mat-icon>
+          </button>        
+          <div class="instruction">What film genres have you worked on (Ex, Funny, Formal, etc.)</div>
+        </h3>
+        <div fxLayout="row" fxFlex="grow">
+          <span *ngFor="let i = index; let id of profileInfo.genres">
+            {{id}}
+            <span class="seperator" *ngIf="i != profileInfo.genres?.length-1">|</span>
+          </span>
+          <div *ngIf="!profileInfo.genres || profileInfo.genres.length == 0 "> <a href='javascript:void(0)' (click)="editGenres()"> Click here </a> to add details.</div>
+        </div>
+      </div> -->
+
+      <!-- <div fxFlex="grow" fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header">
+          <span>Education</span>
+          <button (click)="editEducation()" type="button" mat-button color="primary">
+            <mat-icon class="icon-small">edit</mat-icon>
+          </button>
+        
+        <div class="instruction">Share your highest educational qualification </div>
+        </h3>
+        <span *ngIf="profileInfo.education">{{profileInfo.education}}</span>
+        <span *ngIf="!profileInfo.education"> <a href='javascript:void(0)' (click)="editEducation()"> Click here </a> to add details.</span>
+      </div> -->
+      
+      <div fxFlex="grow" fxLayout="column" fxLayoutGap="15px" class="blocks">
+        <h3 class="table-header" fxFlex fxLayout="row" fxLayoutAlign="start center">
+          <div>Payment Information</div>
+          <button (click)="editPayment()" type="button" mat-button color="primary">
+            <mat-icon *ngIf="profileInfo.payment && profileInfo.payment.length > 0" class="icon-small">edit</mat-icon>
+            <mat-icon *ngIf="!profileInfo.payment || profileInfo.payment?.length == 0 ">add</mat-icon>
+          </button>
+        </h3>
+
+        <div *ngIf="profileInfo.payment?.length > 0"  fxLayout="column" fxLayoutGap="10px">
+          
+            <div *ngFor="let item of profileInfo.payment; let i = index;" class="payment-cont">
+              <div *ngIf='item.value'><span style="font-weight: 500">{{item.key}}&nbsp;-</span>
+              <span>&nbsp;{{item.value}}</span></div>
+            </div>
+
+          <!-- <div *ngIf="profileInfo.payment.pannumber">
+            <span class="bold">PAN Number&nbsp;-</span>
+            <span style="text-transform: uppercase;">&nbsp;{{profileInfo.payment.pannumber}}</span>
+          </div>
+          <div *ngIf="profileInfo.payment.bankname">
+            <span class="bold">Bank Name&nbsp;-</span>
+            <span>&nbsp;{{profileInfo.payment.bankname}}</span>
+          </div>
+          <div *ngIf="profileInfo.payment.branch">
+            <span class="bold">Branch&nbsp;-</span>
+            <span>&nbsp;{{profileInfo.payment.branch}}</span>
+          </div>
+          <div *ngIf="profileInfo.payment.accountnumber">
+            <span class="bold">Account Number&nbsp;-</span>
+            <span>&nbsp;{{profileInfo.payment.accountnumber}}</span>
+          </div>
+          <div *ngIf="profileInfo.payment.ifsccode">
+            <span class="bold">IFSC Code&nbsp;-</span>
+            <span>&nbsp;{{profileInfo.payment.ifsccode}}</span>
+          </div> -->
+
+        </div>
+
+        <span *ngIf="!profileInfo.payment || profileInfo.payment?.length === 0"> Add your payment details.</span>
+
+      </div>
+
+    </div>
+</fury-scrollbar>

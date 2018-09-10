@@ -1,0 +1,99 @@
+:host{
+    .rangeSlider{
+        margin: 10px 0;
+    }
+    .range-drag{
+        height: 30px;
+        position: relative;
+        cursor: pointer;
+        width: 90%;
+        margin: 0 5%;
+    }
+    .range-handle{
+        left: 0.5px;
+        height: 2px;
+        background: #009587;
+        border-radius: 3px;
+        border: 1px solid #009587;
+        position: absolute;
+        top: 12px;
+        z-index: 1;
+    }
+    .left-handle{
+        left: -12px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #009587;
+        border-radius: 24px;
+        position: absolute;
+        top: 2px;
+        z-index: 1;
+        background: #fff;
+    }
+    .right-handle{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #009587;
+        border-radius: 24px;
+        position: absolute;
+        top: 2px;
+        z-index: 1;
+        background: #fff;
+        left: calc(100% - 12px);
+    }
+    .range-background{
+        height: 2px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        position: absolute;
+        width: 100%;
+        top: 12px;
+    }
+    .range-input-min,.range-input-max{
+        display: inline-block;
+        // width: 85px;        
+        position: relative;
+        p{
+            margin-right: 10px !important;
+        }
+    }
+    .range-input-max{
+        float: right;
+    }
+    .range-input-min span,.range-input-max span{
+        position: absolute;
+        right: 0px;
+        line-height: 24px;
+        width: 60px;
+        padding: 0 5px;
+        z-index: 1;
+        background: #fff;
+        border: 1px solid #e1e1e1;
+    }
+    .range-input-min input,.range-input-max input{
+        width: 68px;
+        outline: none;
+        float: right;
+        line-height: 20px;
+    }
+
+    .range-input-min p,.range-input-max p{
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
+        margin-top: 2px;
+    }
+    .labelStyle{
+        color:rgba(0, 0, 0, 0.54);
+        font-size: 14px;
+    }
+    .hintText{
+        color:rgba(0, 0, 0, 0.54);
+        font-size: 13px;
+    }
+    .errorText{
+        color:#f44336;
+    }
+}

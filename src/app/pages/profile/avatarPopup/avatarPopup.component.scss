@@ -1,0 +1,20 @@
+@import "var";
+
+// p{ color: red;}
+.avatar-dialog-cont{
+    .ng2-imgcrop{
+    input{
+            min-width: 88px;
+    line-height: 36px;
+    padding: 0 16px;
+    border-radius: 2px;
+    background-color: $RBFC_RED !important; color: #fff !important;
+    }
+    }
+canvas{
+    margin-top: 20px;
+}
+}
+canvas{
+    margin-top: 20px;
+}

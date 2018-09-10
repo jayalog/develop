@@ -1,0 +1,38 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Reference</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form" fxLayout="column" fxLayoutGap="20px">
+    <div fxLayout="row" fxLayoutGap="30px">
+
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Name</mat-placeholder>
+        <input type="text" required formControlName="name" matInput>
+        <mat-hint *ngIf="form.controls.name.invalid">Reference name is required</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Mobile</mat-placeholder>
+        <input type="text" formControlName="mobile" matInput required>
+        <mat-hint *ngIf="form.controls.mobile.invalid">Reference mobile number is required</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="30px">
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Email</mat-placeholder>
+        <input type="text" formControlName="email" matInput required>
+        <mat-hint *ngIf="form.controls.email.invalid">Reference email is required</mat-hint>
+      </mat-form-field>
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Role</mat-placeholder>
+        <input type="text" formControlName="role" matInput required>
+        <mat-hint *ngIf="form.controls.role.invalid">Reference role is required</mat-hint>
+      </mat-form-field>
+    </div>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-button (click)="saveForm()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>

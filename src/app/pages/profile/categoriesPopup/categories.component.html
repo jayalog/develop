@@ -1,0 +1,32 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>Formats</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<div fxLayout="column" fxLayoutGap="20px">
+    <div fxFlex fxLayout="row" fxLayoutGap="30px">
+    <!-- <mat-form-field fxFlex="grow" class="custom-chiplist">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let item of addedChips" [selectable]="true" [removable]="true" (removed)="removeChip(item)">
+          {{item}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      <input #Input formControlName="categories" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false" [readonly]="addedChips?.length > 9" [matAutocomplete]="auto" (matChipInputTokenEnd)="add($event)">
+
+       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let item of filteredData" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint *ngIf='addedChips?.length <= 9'>Start type the category to add. Up to 10 categories can be added.</mat-hint>
+      <span *ngIf="addedChips?.length > 9" class="custom-mat-error">Already added 10 items.</span>
+    </mat-form-field> -->
+     <chiplist fxFlex [autoCompleteList]='categoryList' [addedChips]='addedChips' (modifiedChips)="getCurChips($event)" [hint]='hint'></chiplist> 
+  </div>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="save()">SAVE</button>
+  </mat-dialog-actions>
+</div>

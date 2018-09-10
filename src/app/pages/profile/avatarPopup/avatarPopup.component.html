@@ -1,0 +1,24 @@
+<fury-loading-overlay [isLoading]="isLoading"></fury-loading-overlay>
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>Edit Avatar</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<div fxLayout="row" fxLayoutGap="20px" fxFlex="grow" class="avatar-dialog-cont">
+  <div fxFlex="70" style="min-width: 400px;">
+    <div id="resizer-demo" style="min-width: 400px;"></div>
+    <!-- <p style="margin-top:0">Drag frame to adjust portrait.</p>
+    <img-cropper #cropper [image]="data" [settings]="cropperSettings" imageBase64></img-cropper> -->
+  </div>
+  <div fxFlex="30">
+    <p style="margin-top:0">Preview</p>
+    <img #preview [src]="url.croppedImage" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight" onerror="this.src='../../../../assets/img/avatars/noavatar.png';" crossorigin="anonymous">
+  </div>
+</div>
+<div style="margin-top: 10px;">
+      <button mat-button (click)="photo.click()">Choose photo</button>
+      <input id="custom-input" class="controls" type="file" #photo name="video" class="noborder" hidden (change)="fileChangeListener($event)" />  
+</div>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button (click)="close()">CANCEL</button>
+  <button mat-raised-button (click)="saveCroppedImage()">SAVE</button>
+</mat-dialog-actions>

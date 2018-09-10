@@ -1,0 +1,24 @@
+<span class="labelStyle">{{label}}</span>
+<div class="rangeSlider" [style.width]="parentWidth+'px'" #rangeSlider>
+    <div class="range-drag">
+        <div class="range-handle" #rangeHandle [style.width]="width+'px'" style="left: 0.5px;"></div>
+        <div class="left-handle" #leftHandle draggable="false" (mousedown)="leftHandleDown($event)" style="left: -12px;"></div>
+        <div class="right-handle" #rightHandle draggable="false" (mousedown)="rightHandleDown($event)"></div>
+        <div class="range-background"></div>
+    </div>
+    <div class="range-input">
+        <div class="range-input-min">
+            <p>{{currencyType}}</p> 
+            <input type="text" (blur)="onBlur('left')" pattern="[0-9]"  [value]="minValue" #leftInput (keyup)="onMinKeyUp($event)" (keydown)="onMinKeyDown($event)">
+            <span #leftText (click)="focusInput('left')">{{minValue}}</span>
+        </div>
+        <div class="range-input-max">
+            <p>{{currencyType}}</p> 
+            <input type="text" (blur)="onBlur('right')" pattern="[0-9]" [value]="maxValue" #rightInput (keyup)="onMaxKeyUp($event)" (keydown)="onMaxKeyDown($event)">
+            <span #rightText (click)="focusInput('right')">{{maxValue}}</span>
+        </div>
+    </div>
+</div>
+<span class="hintText" *ngIf="!isMinError && !isMaxError">Select minimum and maximum value withinin the range 100 to 10000</span>
+<span class="hintText errorText" *ngIf="isMinError">Value should not be less than {{min}} and not more than {{max}}</span>
+<span class="hintText errorText" *ngIf="isMaxError">Value should not be more than {{max}} and not less than {{min}}</span>

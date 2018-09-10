@@ -1,0 +1,50 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Other Roles &amp; Budget</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form" fxLayout="column" fxLayoutGap='30px'>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-select placeholder="Role" formControlName="role" required>
+          <mat-option>--</mat-option>
+            <mat-option *ngFor="let item of roles" [value]="item">
+              {{item}}
+            </mat-option>
+        </mat-select>
+        <mat-error>Role is required.</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px" class="top-20">
+
+      <mat-form-field fxFlex='20'>
+          <mat-select placeholder="Currency" formControlName="currency">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let option of countries" [value]="option.currency">
+                {{option.currency}}
+            </mat-option>
+        </mat-select>
+        <!-- <mat-hint>Select currency</mat-hint> -->
+      </mat-form-field>
+
+      <mat-form-field fxFlex='50'>
+        <mat-placeholder>Budget</mat-placeholder>
+        <input type="text" formControlName="budget" matInput>
+        <!-- <mat-error>Mobile number is not valid.</mat-error> -->
+      </mat-form-field>
+
+
+      <mat-form-field fxFlex='30'>
+         <mat-select placeholder="Time" formControlName="timerange">
+          <mat-option>--</mat-option>
+            <mat-option *ngFor="let item of time" [value]="item">
+              {{item}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+ 
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>

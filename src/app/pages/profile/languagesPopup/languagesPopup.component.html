@@ -1,0 +1,31 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Languages</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form" (ngSubmit)="saveForm()">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex='50'>
+        <mat-select placeholder="Language" formControlName="name">
+          <mat-option>--</mat-option>
+            <mat-option *ngFor="let item of languagesList" [value]="item">
+              {{item}}
+            </mat-option>
+        </mat-select>
+        <!-- <mat-hint *ngIf="form.controls.name.invalid">Award Name is required</mat-hint> -->
+      </mat-form-field>
+    
+      <mat-form-field fxFlex='50'>
+         <mat-select placeholder="Proficiency" formControlName="proficiency">
+          <mat-option>--</mat-option>
+            <mat-option *ngFor="let item of proficiency" [value]="item">
+              {{item}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+ 
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>

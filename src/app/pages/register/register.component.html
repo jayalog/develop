@@ -1,0 +1,164 @@
+<fury-loading-overlay [isLoading]="isLoading"></fury-loading-overlay>
+
+<div class="register" fxLayout="row" fxLayoutAlign="center center">
+    <div class="session-card session-card-big">
+        <div class="header" fxLayout="column" fxLayoutAlign="center center">
+            <img src="assets/img/red-logo.png" class="card-logo" />   
+        </div>
+        <form class="content" fxLayout="column" fxLayoutGap="25px" [formGroup]="form" autocomplete="off">
+            <div class="title">Sign up</div>
+            <mat-radio-group fxLayout="row" fxLayoutGap="20px" formControlName="usertype" #user>
+                <mat-radio-button color='primary' value="creator">Individual Creator</mat-radio-button>
+                <mat-radio-button color='primary' value="brand">Production house</mat-radio-button>
+            </mat-radio-group>
+
+             <div fxFlex fxLayout="row" fxLayoutGap="20px" *ngIf='form.get("usertype").value == "brand"'>
+                <mat-form-field fxFlex="grow">
+                    <mat-placeholder>Production house name</mat-placeholder>
+                    <input matInput required formControlName="brandname" (keydown)="keyDownFunction($event)">
+                    <mat-hint>Enter the name of your organisation.</mat-hint>
+                    <mat-error>Production house name is required.</mat-error>
+                </mat-form-field>
+
+                <!-- <mat-form-field fxFlex="50">
+                    <mat-placeholder>Production house url</mat-placeholder>
+                    <input matInput required formControlName="brandurl" (keydown)="keyDownFunction($event)">
+                    <mat-hint>Enter the url of your organisation.</mat-hint>
+                    <mat-error>Production house url is mandatory.</mat-error>
+                </mat-form-field> -->
+            </div>
+
+            <div fxFlex fxLayout="row" fxLayoutGap="20px">
+                <mat-form-field fxFlex="grow">
+                    <mat-placeholder>Full name</mat-placeholder>
+                    <input matInput required formControlName="name" (keydown)="keyDownFunction($event)">
+                    <mat-error>Name is required.</mat-error>
+                    <mat-hint>Enter your full name.</mat-hint>
+                </mat-form-field>
+                <!-- <mat-form-field fxFlex="48">
+                    <mat-placeholder>Last name</mat-placeholder>
+                    <input matInput formControlName="lastname">
+                </mat-form-field> -->
+            </div>
+
+            <div fxFlex fxLayout="row" fxLayoutGap="20px">
+                 <mat-form-field fxFlex="50">
+
+                     <mat-select placeholder="Country" formControlName="country" required  (ngModelChange)='filterCountries($event)'>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let option of filteredCountries" [value]="option.name">
+                            {{option.name}}
+                        </mat-option>
+                    </mat-select>
+
+                    <!-- <input matInput type="text" placeholder="Country" formControlName="country" required [matAutocomplete]="auto" (ngModelChange)='filterCountries($event)'>
+                     <mat-autocomplete #auto="matAutocomplete" >
+                        <mat-option *ngFor="let option of filteredCountries" [value]="option.name">
+                        {{ option.name}}
+                        </mat-option>
+                    </mat-autocomplete> -->
+                     <mat-hint>Select your current country.</mat-hint>
+                     <mat-error>Country is required.</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+
+                    <mat-select placeholder="City" formControlName="city" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let option of filteredcities" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-select>
+                    
+                     <!-- <input matInput type="text" placeholder="City" required formControlName="city" [matAutocomplete]="cityauto" (ngModelChange)='filterCities($event)'>
+                     <mat-autocomplete #cityauto="matAutocomplete" >
+                        <mat-option *ngFor="let option of filteredcities" [value]="option">
+                        {{ option}}
+                        </mat-option>
+                    </mat-autocomplete> -->
+                    <mat-hint>Enter your current city.</mat-hint>
+                    <mat-error>City is required.</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex fxLayout="row" fxLayoutGap="20px">
+                <mat-form-field fxFlex="50">
+                    <mat-placeholder>Email</mat-placeholder>
+                    <input matInput required formControlName="email" (keydown)="keyDownFunction($event)">
+                    <mat-error *ngIf="form.controls.email.errors?.required">Email is required.</mat-error>
+                    <mat-error *ngIf="form.controls.email.errors?.email">Email must be a valid email address.</mat-error>
+                    <mat-hint>Your e-mail id will be your login id.</mat-hint>
+                </mat-form-field>
+               
+                <mat-form-field fxFlex="50">
+                    <mat-placeholder>Mobile</mat-placeholder>
+                    <input matInput required formControlName="mobile" (keydown)="keyDownFunction($event)">
+                    <mat-error *ngIf="form.controls.mobile.errors?.required">Mobile is required.</mat-error>
+                    <mat-error *ngIf="form.controls.mobile.errors?.pattern">Mobile must be a valid mobile number.</mat-error>
+                    <mat-hint>Enter mobile number.</mat-hint>
+                </mat-form-field>
+            </div>
+            <div fxFlex fxLayout="row" fxLayoutGap="20px">
+                <mat-form-field fxFlex="50" [formGroup]="passwords">
+                    <mat-placeholder>Password</mat-placeholder>
+                    <input matInput [type]="inputType" required formControlName="password" (keydown)="keyDownFunction($event)">
+                    <button *ngIf="!visible" type="button" mat-icon-button matSuffix (click)="showPassword()" tabindex="-1">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button *ngIf="visible" type="button" mat-icon-button matSuffix (click)="hidePassword()" tabindex="-1">
+                        <mat-icon>visibility_off</mat-icon>
+                    </button>
+                    <mat-hint>Min 8 char and at least one number.</mat-hint>
+                     <mat-error *ngIf="passwords.controls.password.errors?.pattern">Min 8 char and at least one number.</mat-error>
+                    <mat-error *ngIf="passwords.controls.password.errors?.required">Password is required.</mat-error> 
+                </mat-form-field>
+
+                 <mat-form-field fxFlex="50">
+                    <input matInput type="text" required placeholder="Role" formControlName="role" [matAutocomplete]="roleauto" (ngModelChange)='filterRoles($event)'>
+                    <mat-autocomplete #roleauto="matAutocomplete" >
+                        <mat-option *ngFor="let option of filteredroles" [value]="option">
+                        {{ option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Enter your role (Ex. Director)</mat-hint>
+                    <mat-error>Role is required.</mat-error> 
+                </mat-form-field>
+
+                <!-- <mat-form-field fxFlex="grow">
+                    <mat-placeholder>Password (Confirm)</mat-placeholder>
+                    <input matInput [type]="inputType" required formControlName="passwordConfirm">
+                    <button *ngIf="!visible" type="button" mat-icon-button matSuffix (click)="showPassword()">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button *ngIf="visible" type="button" mat-icon-button matSuffix (click)="hidePassword()">
+                        <mat-icon>visibility_off</mat-icon>
+                    </button>
+                    <mat-hint *ngIf="!passwords.errors?.invalidUrl">Type in your password again.</mat-hint>
+                      
+                    <span *ngIf="passwords.errors?.invalidUrl" class="custom-mat-error">Password doesn't match.</span> 
+                    <mat-error *ngIf="passwords.controls.passwordConfirm.errors?.required && !passwords.errors?.invalidUrl">Please confirm password.</mat-error>
+                </mat-form-field>   -->
+            </div>
+
+            <!-- <p class="terms">By clicking Sign Up, you agree to our <a href="https://www.redbangle.com/terms-of-service/" target='_blank'>Terms of services and Privacy policy.</a></p> -->
+           
+            <mat-checkbox formControlName="terms" color='primary' required (change)="acceptTerms($event)">I accept the <a href="https://www.redbangle.com/terms-of-service/" target='_blank'>terms of services and privacy policy.</a></mat-checkbox>
+
+            <p class="error" *ngIf='error'><mat-icon>error</mat-icon><span>{{error}}</span></p>
+
+            <div class="extra-options" fxLayout="row" fxLayoutAlign="center center">
+                <button type="button" color="primary" mat-raised-button  (click)="signup()" [disabled]="form.invalid" class="signup-btn">
+                    SIGN UP
+                </button>
+            </div>
+            
+            <p class="extra">
+                Already have an account? <a [routerLink]="['/login']">Sign in here</a>
+            </p>
+             <p class="extra">
+                To verify account <a [routerLink]="['/verify']">Click here</a>
+            </p>
+
+            <!-- <p class="error">{{error}}</p> -->
+        </form>
+    </div>
+</div>

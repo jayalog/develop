@@ -1,0 +1,350 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~normalize.css/normalize.css';
+@import '~angular-calendar/scss/angular-calendar.scss';
+@import "~highlight.js/styles/androidstudio.css";
+@import "~quill/dist/quill.snow.css";
+@import "styles/var";
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+@import 'styles/tables';
+@import "styles/cards";
+@import "styles/inbox";
+@import "styles/calendar";
+@import "styles/misc";
+@import "styles/tabs";
+
+@keyframes pageLoad {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+
+/* Fonts */
+
+@font-face {
+    font-family: 'gothic-regular';
+    src: url('./assets/fonts/franklin-gothic-book-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'gothic-bold';
+    src: url('./assets/fonts/ITCFranklinGothicStd-Demi.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'gothic-light';
+    src: url('./assets/fonts/ITCFranklinGothicStd-MdCd.otf') format('opentype');
+}
+
+
+/* Theming */
+
+$custom-typography: mat-typography-config( $font-family: 'Roboto, monospace');
+@include mat-core($custom-typography);
+
+/* Common Styles */
+
+body {
+    color: $RBFC_FONT_COLOR !important;
+    font-family: 'Roboto', 'Helvetica Neue', 'sans-serif' !important;
+    font-size: $RBFC_fontsize;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Roboto', 'Helvetica Neue', 'sans-serif';
+    font-weight: bold;
+}
+.text_small {
+    font-family: 'Roboto', 'Helvetica Neue', 'sans-serif'; // font-size: 1.2rem !important;
+}
+
+.border {
+    border-bottom: 1px solid $RBFC_LIGHT_GREY;
+}
+
+.link {
+    color: $RBFC_RED !important;
+    text-decoration: none;
+    cursor: pointer;
+    // font-weight: bold;
+}
+
+.secondary-link {
+    color:$RBFC_ORANGE !important;
+    text-decoration: none;
+    cursor: pointer;
+    // font-weight: bold;
+}
+
+.align_top {
+    vertical-align: top;
+}
+
+.valign_middle {
+    height: 100%;
+    justify-content: center;
+}
+
+.ellipses {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.no_ellipses {
+    overflow: auto;
+    text-overflow: initial;
+    white-space: normal !important;
+}
+
+.aspect_ratio {
+    // To maintain video aspect ratio of thumbnail image
+    width: 100%;
+    position: relative;
+    height: 0;
+    padding: 56.25% 0 0 0;
+    overflow: hidden;
+    cursor: pointer;
+    img {
+        position: absolute;
+        width: 100% !important;
+        height: 100% !important;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: auto;
+        width: auto;
+    }
+}
+
+.bold {
+    // font-family: 'gothic-bold';
+    font-weight: bold;
+}
+
+/* Common Styles - End */
+
+/* Utility Classes */
+
+.top-10{
+  margin-top: 10px;
+}
+
+.page-load-animation {
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  animation: pageLoad linear 1;
+  animation-fill-mode: forwards;
+  animation-duration: 400ms;
+  animation-delay: 500ms;
+  background: #e8e8e8;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.no-elevation{
+    box-shadow: none !important;
+}
+
+
+/* Material Elements   */
+
+.mat-raised-button,  .mat-fab.mat-primary, .mat-mini-fab.mat-primary{ background-color: $RBFC_RED !important; color: #fff !important;}
+
+.mat-flat-button, .mat-button{
+    background:  none!important; 
+    color:$RBFC_RED !important;
+}
+
+.mat-flat-button[disabled], .mat-button[disabled]{
+background:  none!important; color:$RBFC_GREY !important;
+}
+
+.mat-raised-button[disabled]{
+background:  #e9e9e9!important; color:$RBFC_FONT_COLOR !important;
+}
+
+.mat-stroked-button{
+    color:$RBFC_RED !important;
+    border: 1px solid $RBFC_RED !important; 
+}
+
+a{ color:$RBFC_RED; text-decoration: none; }
+
+.mat-button, .mat-raised-button, .mat-stroked-button, .mat-flat-button{
+    font-size: $RBFC_fontsize !important;
+}
+
+.mat-cell, .mat-footer-cell{
+    font-size: $RBFC_fontsize !important;
+}
+
+
+.mat-form-field-appearance-legacy .mat-form-field-underline{
+    background-color: rgba(0,0,0,0.12) !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label, .mat-placeholder-required {
+    color: #757575 !important;
+}
+
+.mat-form-field-appearance-legacy .mat-hint{
+    color: #212121;
+}
+// .mat-form-field, .mat-option{ font-size: 14px;}
+
+/* Center aligning contents in large sereens */
+
+.content-center{
+  width: 90%;
+  margin: 0 auto;
+}
+
+.page-top {
+    padding: 25px 25px 25px 25px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    h2{
+        margin-right: 25px;
+        margin: 0 25px 0 0;
+        font-size: 18px;
+    }        
+    
+    
+}
+
+// .content-center-container{
+//   background: #f6f6f6;
+// }
+
+/* Material Dialog  */
+.dialog-wide{
+    width: 650px;
+}
+
+.dialog-contact{
+    width: 600px;
+    height: 400px;
+    .mat-dialog-container{
+        padding: 0;
+        // border-radius: 10px;
+    }
+}
+
+.dialog-backdrop-contact{
+    background: rgba(226,21,27,0.8);
+}
+.closeIcon{
+    cursor: pointer;
+}
+
+.mat-dialog-title{
+    // font-size: 16px;
+    // font-family: 'gothic-bold';
+    // font-weight: bold;
+    h2{
+        font-size: inherit !important;
+        margin: 0 !important;
+    }
+}
+
+.mat-dialog-content{
+    max-height: 90% !important;
+}
+
+/* Metrial Form label and hint and error */
+
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+//   color: $RBFC_FONT_COLOR;
+  font-size: 18px;
+  // scale or font-size
+}
+
+.mat-hint, .mat-error{
+    font-size: 13px;
+}
+
+/* Material Icons  */
+.icon-small{
+    font-size: 18px !important;
+    height: 18px !important;
+    width: 18px !important;
+    line-height: 18px !important;
+}
+
+/* Material chiplist custom */
+
+.custom-chiplist{
+    width: 100%;
+    input{
+        width: 100% !important;
+        height: 35px;
+        border: 1px solid rgba(0, 0, 0, 0.42);
+        border-radius: 4px;
+        padding: 5px;
+        box-sizing: border-box;
+        margin: 0px 0 0 !important;
+    }
+    .mat-chip{
+        margin: 0px 4px 8px !important;
+    }
+    .mat-chip-list-wrapper{
+        margin: 0px 0 0px 0!important;
+    }
+    input:disabled{
+        background: #e6e6e6;
+    }
+    .mat-form-field-underline{
+        display: none;
+    }
+    .mat-form-field-infix{
+        padding: 0px !important;
+    }
+    .mat-form-field-label-wrapper{ padding: 0;}
+}
+
+/* Material tooltip */
+
+.mat-tooltip {
+
+    font-family: 'Roboto', 'Helvetica Neue', 'sans-serif' !important;
+    color: #fff !important;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+/* Material menu item font size resest */
+
+// .mat-menu-item{
+//     font-size: 14px !important;
+// }
+
+
+
+.custom-mat-error{color: red;     position: absolute;
+    left: 0;
+    bottom: -18px;
+    font-size: 11px;}

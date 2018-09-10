@@ -1,0 +1,47 @@
+<fury-loading-overlay [isLoading]="isLoading"></fury-loading-overlay>
+<div class="login" fxLayout="row" fxLayoutAlign="center center">
+    <div class="session-card">
+        <div class="header" fxLayout="column" fxLayoutAlign="center center">
+            <img src="assets/img/red-logo.png" class="card-logo" /> 
+        </div>
+        <form class="content" fxLayout="column" fxLayoutGap="24px" [formGroup]="form">
+            <div class="title">Sign in</div>
+            <div fxFlex fxLayout="column" fxLayoutGap="20px">
+                <mat-form-field fxFlex="grow">
+                    <mat-placeholder>Email</mat-placeholder>
+                    <input #email matInput email required formControlName="email" (keydown)="keyDownFunction($event)">
+                    <mat-error *ngIf="form.controls.email.errors?.required">Email is required.</mat-error>
+                    <mat-error *ngIf="form.controls.email.errors?.email">Email must be a valid email address.</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="grow">
+                    <mat-placeholder>Password</mat-placeholder>
+                    <input matInput [type]="inputType" required formControlName="password" (keydown)="keyDownFunction($event)">
+                    <button *ngIf="!visible" type="button" mat-icon-button matSuffix (click)="show()"  tabindex="-1">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button *ngIf="visible" type="button" mat-icon-button matSuffix (click)="hide()"  tabindex="-1">
+                        <mat-icon>visibility_off</mat-icon>
+                    </button>
+                    <mat-error>Password is required.</mat-error>
+                    <!-- <mat-hint>Try clicking the eye to toggle the visibility.</mat-hint> -->
+                </mat-form-field>
+            </div>
+            <div><a class="forgot-password" [routerLink]="['/forgot-password']">Forgot password?</a></div>
+
+            <p class="error" *ngIf='error'><mat-icon>error</mat-icon><span>{{error}}</span></p>
+
+            <div class="extra-options" fxLayout="row" fxLayoutAlign="center center">
+                <button type="button" color="warn" mat-raised-button [disabled]="form.invalid" (click)="send()"> SIGN IN </button>
+            </div>
+            
+            <p class="extra">
+                New to Red Bangle? <a [routerLink]="['/register']">Sign up</a>
+            </p>
+            <p class="extra">
+                To verify account <a [routerLink]="['/verify']">Click here</a>
+            </p>
+
+            
+        </form>
+    </div>
+</div>

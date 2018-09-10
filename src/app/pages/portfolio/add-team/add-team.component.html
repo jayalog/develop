@@ -1,0 +1,65 @@
+
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+    <h2 mat-dialog-title>{{teamVo?'Edit':'Add'}} Team</h2>
+    <i class="material-icons closeIcon" (click)="closeDialog()">close</i>
+</div>
+<form [formGroup]="addTeamForm" (ngSubmit)="addTeam()">
+  <div class="content" fxLayout="column" fxLayoutGap="20px">
+
+    <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex="50">
+            <mat-placeholder>Name</mat-placeholder>
+            <input matInput required formControlName="name">
+            <mat-error>Name is mandatory.</mat-error>
+            <mat-hint>Name of the person you worked with.</mat-hint>
+        </mat-form-field>       
+        
+        <mat-form-field fxFlex="50">
+            <input matInput type="text" placeholder="Role" required formControlName="role" [matAutocomplete]="autoRoles" (ngModelChange)='filterData($event)'>
+            <mat-autocomplete #autoRoles="matAutocomplete">
+                <mat-option *ngFor="let role of filteredRoles" [value]="role">
+                    {{role}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-hint>Role of the person.</mat-hint>  
+        </mat-form-field>
+
+    </div>
+    <div fxLayout="row" fxLayoutGap="30px">
+
+        <mat-form-field fxFlex="50">
+            <mat-placeholder>Email</mat-placeholder>
+            <input matInput required formControlName="email">
+            <mat-error>Email is mandatory.</mat-error>
+            <mat-hint>Enter the persons email id.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50">
+            <mat-placeholder>Mobile</mat-placeholder>
+            <input matInput formControlName="phone">
+            <mat-hint>Enter the persons mobile number.</mat-hint>
+        </mat-form-field>        
+                
+    </div>
+    <!-- <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex="100">
+            <mat-placeholder>Description</mat-placeholder>
+            <input matInput formControlName="description">
+            <mat-hint>Describe the project.</mat-hint>
+        </mat-form-field>        
+    </div>
+    <div fxLayout="row" fxLayoutGap="30px">
+        <mat-form-field fxFlex="100">
+            <mat-placeholder>Common work link</mat-placeholder>
+            <input matInput formControlName="workLink">
+            <mat-hint>Please share link to the work you did.</mat-hint>
+        </mat-form-field>        
+    </div> -->
+    
+    <div fxLayout="row">
+            <span fxFlex></span>
+            <button (click)="cancel()" mat-button>CANCEL</button>
+            <button (click)="addTeam()" mat-button>{{teamVo?'UPDATE':'ADD'}}</button>
+    </div>
+  </div>
+</form> 

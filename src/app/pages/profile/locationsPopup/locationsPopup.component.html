@@ -1,0 +1,36 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Preferred working locaions</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+       <div fxFlex fxLayout="row" fxLayoutGap="20px">
+                 <mat-form-field fxFlex="50">
+
+                     <mat-select placeholder="Country" formControlName="country" required  (ngModelChange)='getCities($event)'>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let option of countriesList" [value]="option.name">
+                            {{option.name}}
+                        </mat-option>
+                    </mat-select>
+                     <mat-error>Country is required.</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+
+                    <mat-select placeholder="City" formControlName="city" required>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let option of cities" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>City is required.</mat-error>
+                </mat-form-field>
+            </div>
+
+    </div>
+ 
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>

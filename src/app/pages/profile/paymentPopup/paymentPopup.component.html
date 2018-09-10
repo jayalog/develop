@@ -1,0 +1,89 @@
+<div fxFlex="grow" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{isEdit ? 'Edit' : 'Add'}} Payment Information</h2>
+  <i class="material-icons closeIcon" (click)="close()">close</i>
+</div>
+<form [formGroup]="form" fxLayout="column" fxLayoutGap="20px">
+    <mat-radio-group fxLayout="row" fxLayoutGap="20px" formControlName="location">
+        <mat-radio-button color='primary' value="india">Inside India</mat-radio-button>
+        <mat-radio-button color='primary' value="others">Outside India</mat-radio-button>
+    </mat-radio-group>
+
+    <div *ngIf='form.get("location").value == "india"'>
+      
+      <div fxLayout="row" fxLayoutGap="30px" class="top-20">
+        <mat-form-field fxFlex='100'>
+          <mat-placeholder>Account holder name</mat-placeholder>
+          <input type="text" formControlName="name" matInput>
+          <mat-error>Name as in the bank records is required.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="30px" class="top-20">
+        <mat-form-field fxFlex='100'>
+          <mat-placeholder>PAN</mat-placeholder>
+          <input type="text" formControlName="pannumber" matInput>
+          <mat-error *ngIf="!form.controls.pannumber.errors?.required && form.controls.pannumber.errors?.inValidPan">Invalid PAN number</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="30px" class="top-20">
+        <mat-form-field fxFlex='100'>
+          <mat-placeholder>Bank name</mat-placeholder>
+          <input type="text" formControlName="bankname" matInput required>
+          <mat-error *ngIf="form.controls.bankname.invalid">Bank Name is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="30px" class="top-20">
+        <mat-form-field fxFlex='100'>
+          <mat-placeholder>Branch</mat-placeholder>
+          <input type="text" formControlName="branch" matInput required>
+          <mat-error *ngIf="form.controls.branch.invalid">Branch is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="30px" class="top-20">
+        <mat-form-field fxFlex='100'>
+          <mat-placeholder>Account number</mat-placeholder>
+          <input type="text" formControlName="accountnumber" matInput required>
+          <!-- <mat-hint>Account Number is required</mat-hint> -->
+          <mat-error *ngIf="form.controls.accountnumber.errors && form.controls.accountnumber.errors.inValidAn">Account Number must contain only numbers</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" fxLayoutGap="30px" class="top-20">
+        <mat-form-field fxFlex='100'>
+          <mat-placeholder>IFSC code</mat-placeholder>
+          <input type="text" formControlName="ifsccode" matInput required>
+          <mat-error *ngIf="form.controls.ifsccode.invalid">IFSC Code is required</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div *ngIf='form.get("location").value != "india"'>
+        <p fxLayout="row" fxLayoutGap="15px">
+          <span>Add data: </span>
+          <a href="javascript:void(0)" (click)="addItem({})"><i class="material-icons">add</i></a>
+        </p>
+        <div formArrayName="items" *ngFor="let item of form.get('items')['controls']; let i = index;">
+          <div [formGroupName]="i" class="form_row" fxLayout="row" fxFlexFill fxLayoutGap.gt-sm="24px" fxLayoutAlign="start center">
+            <mat-form-field fxFlex="35">
+              <input matInput type="text" placeholder="Key" formControlName="key"  />
+              <!-- <mat-hint>Enter key like swift code etc.</mat-hint> -->
+            </mat-form-field>
+            <mat-form-field fxFlex="55">
+              <input matInput type="text" placeholder="Value" formControlName="value" />
+              <!-- <mat-hint>Enter value of the key</mat-hint> -->
+            </mat-form-field>
+            <div fxFlex="10">
+              <a class="delete_meta_data" href="javascript:void(0)" (click)="deleteItem(i)"><i class="material-icons">clear</i></a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">CANCEL</button>
+    <button mat-raised-button (click)="saveForm()" [disabled]="form.invalid">SAVE</button>
+  </mat-dialog-actions>
+</form>
